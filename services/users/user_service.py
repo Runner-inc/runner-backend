@@ -27,6 +27,15 @@ class SupabaseUserService(UserService):
         )
         return response.data
 
+    def update_user_result(self, telegram_id: int, result: str):
+        response = (
+            self.supabase_client
+                .table("users")
+                .update({"result": result})
+                .eq("telegram_id", telegram_id)
+                .execute()
+        )
+        return response.data
 
 class MockUserService(UserService):
     def __init__(self):
