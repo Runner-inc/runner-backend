@@ -29,15 +29,8 @@ def get_user_telegram_id(telegram_id: str):
 @main_routers.post("/api/users/{telegram_id}")
 async def update_user_score(telegram_id: str, request: Request):
     data = await request.json()
-
     if "result" not in data:
         raise HTTPException(status_code=400, detail="Result not provided")
-
-    result = str(data["result"])  # Сохраняем как текст, если у тебя TEXT в БД
-
-    try:
-        updated = users.service.update_user_result(telegram_id, result)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
+    result = str(data["result"])
+    updated = users.service.update_user_result(telegram_id, result)
     return {"ok": True, "updated": updated}
